@@ -8,6 +8,7 @@ import { DocumentCard } from '@/components/DocumentCard';
 import { ShareModal } from '@/components/ShareModal';
 import { FileUploadModal } from '@/components/FileUploadModal';
 import { DocumentWithRole } from '@/lib/db/repository';
+import { LoginPage } from '@/components/LoginPage';
 import '@/styles/dashboard.css';
 import {
   Plus,
@@ -22,7 +23,7 @@ import {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { currentUser, apiFetch } = useUser();
+  const { currentUser, isLoading: isUserLoading, apiFetch } = useUser();
   const [ownedDocs, setOwnedDocs] = useState<DocumentWithRole[]>([]);
   const [sharedDocs, setSharedDocs] = useState<DocumentWithRole[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -170,6 +171,31 @@ export default function DashboardPage() {
       alert(msg);
     }
   };
+
+  // If checking authentication state
+  if (isUserLoading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          background: 'var(--bg-app)',
+          gap: 16,
+        }}
+      >
+        <Loader2 size={36} className="animate-spin" color="var(--primary)" />
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading DocFlow...</p>
+      </div>
+    );
+  }
+
+  // If user is not logged in, show the Login / Start page
+  if (!currentUser) {
+    return <LoginPage />;
+  }
 
   // Filter documents based on active tab and search query
   const allDocs = [...ownedDocs, ...sharedDocs];

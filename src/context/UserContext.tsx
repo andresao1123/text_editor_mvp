@@ -56,11 +56,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       const users: User[] = data.users || [];
       setAllUsers(users);
 
-      // Check saved user or default to Alex
+      // Only set user if explicitly saved in localStorage and exists in user list
       const savedUserId = localStorage.getItem('docflow-user-id');
-      const matched = users.find((u: User) => u.id === savedUserId);
-      const active = matched || users[0] || null;
-      setCurrentUser(active);
+      const matched = savedUserId ? users.find((u: User) => u.id === savedUserId) : null;
+      setCurrentUser(matched || null);
     } catch (err) {
       console.error('Error in UserProvider:', err);
     } finally {

@@ -1,11 +1,8 @@
 {
-  "/api/documents/route": "app/api/documents/route.js",
-  "/api/documents/[id]/share/route": "app/api/documents/[id]/share/route.js",
-  "/api/users/route": "app/api/users/route.js",
   "/api/documents/[id]/route": "app/api/documents/[id]/route.js",
+  "/api/documents/route": "app/api/documents/route.js",
   "/api/upload/route": "app/api/upload/route.js",
-  "/api/users/login/route": "app/api/users/login/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
+  "/api/users/route": "app/api/users/route.js",
   "/doc/[id]/page": "app/doc/[id]/page.js",
   "/page": "app/page.js"
 }

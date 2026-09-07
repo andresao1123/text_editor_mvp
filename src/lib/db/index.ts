@@ -9,12 +9,13 @@ export function getDatabase(): DatabaseSync {
     return dbInstance;
   }
 
+  const isTest = process.env.NODE_ENV === 'test' || Boolean(process.env.VITEST);
   const dbDir = path.resolve(process.cwd(), 'data');
-  if (!fs.existsSync(dbDir)) {
+  if (!isTest && !fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
   }
 
-  const dbPath = path.join(dbDir, 'docflow.db');
+  const dbPath = isTest ? ':memory:' : path.join(dbDir, 'docflow.db');
   const db = new DatabaseSync(dbPath);
 
   // Enable WAL and foreign keys

@@ -7,6 +7,7 @@ import { useUser } from '@/context/UserContext';
 import { DocumentEditor } from '@/components/DocumentEditor';
 import { ShareModal } from '@/components/ShareModal';
 import { DocumentWithRole } from '@/lib/db/repository';
+import { LoginPage } from '@/components/LoginPage';
 import '@/styles/editor.css';
 import {
   ArrowLeft,
@@ -27,7 +28,7 @@ interface PageProps {
 export default function DocumentPage({ params }: PageProps) {
   const { id } = use(params);
   const router = useRouter();
-  const { currentUser, switchUser, allUsers, theme, toggleTheme, apiFetch } = useUser();
+  const { currentUser, switchUser, allUsers, isLoading: isUserLoading, theme, toggleTheme, apiFetch } = useUser();
   const [doc, setDoc] = useState<DocumentWithRole | null>(null);
   const [title, setTitle] = useState('');
   const [isLoading, setIsLoading] = useState(true);
