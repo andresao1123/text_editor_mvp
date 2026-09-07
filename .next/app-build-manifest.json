@@ -22,11 +22,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/documents/route.js"
     ],
-    "/api/upload/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/upload/route.js"
-    ],
     "/doc/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -37,6 +32,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/api/documents/[id]/route.js"
+    ],
+    "/api/documents/[id]/share/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/documents/[id]/share/route.js"
     ]
   }
 }
