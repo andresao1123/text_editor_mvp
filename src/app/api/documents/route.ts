@@ -5,7 +5,7 @@ import { createDocumentSchema } from '@/lib/validation';
 export async function GET(req: NextRequest) {
   try {
     const userId = req.headers.get('x-user-id') || 'user-alex';
-    const { owned, shared } = getDocumentsForUser(userId);
+    const { owned, shared } = await getDocumentsForUser(userId);
     return NextResponse.json({ owned, shared });
   } catch (error) {
     console.error('Error fetching documents:', error);
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const doc = createDocument(
+    const doc = await createDocument(
       validated.data.title,
       validated.data.contentHtml,
       validated.data.plainText,

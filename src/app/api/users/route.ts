@@ -4,7 +4,7 @@ import { createUserSchema } from '@/lib/validation';
 
 export async function GET() {
   try {
-    const users = getAllUsers();
+    const users = await getAllUsers();
     return NextResponse.json({ users });
   } catch (error) {
     console.error('Error getting users:', error);
@@ -24,12 +24,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const existing = getUserByEmail(validated.data.email);
+    const existing = await getUserByEmail(validated.data.email);
     if (existing) {
       return NextResponse.json({ error: 'User with this email already exists' }, { status: 409 });
     }
 
-    const newUser = createUser(validated.data.name, validated.data.email);
+    const newUser = await createUser(validated.data.name, validated.data.email);
     return NextResponse.json({ user: newUser }, { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);

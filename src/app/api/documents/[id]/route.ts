@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const userId = req.headers.get('x-user-id') || 'user-alex';
 
-    const doc = getDocumentById(id, userId);
+    const doc = await getDocumentById(id, userId);
     if (!doc) {
       return NextResponse.json({ error: 'Document not found or access denied' }, { status: 404 });
     }
@@ -33,7 +33,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const userId = req.headers.get('x-user-id') || 'user-alex';
 
-    const role = getUserRoleForDocument(id, userId);
+    const role = await getUserRoleForDocument(id, userId);
     if (!role) {
       return NextResponse.json({ error: 'Document not found or access denied' }, { status: 404 });
     }
@@ -54,8 +54,8 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       );
     }
 
-    updateDocument(id, validated.data);
-    const updated = getDocumentById(id, userId);
+    await updateDocument(id, validated.data);
+    const updated = await getDocumentById(id, userId);
 
     return NextResponse.json({ document: updated });
   } catch (error) {
@@ -69,7 +69,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const userId = req.headers.get('x-user-id') || 'user-alex';
 
-    const role = getUserRoleForDocument(id, userId);
+    const role = await getUserRoleForDocument(id, userId);
     if (!role) {
       return NextResponse.json({ error: 'Document not found' }, { status: 404 });
     }
@@ -81,7 +81,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
       );
     }
 
-    deleteDocument(id);
+    await deleteDocument(id);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting document:', error);

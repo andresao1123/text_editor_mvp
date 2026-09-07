@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const parsed = await parseFileContent(file.name, buffer);
 
     if (shouldCreateDoc) {
-      const newDoc = createDocument(
+      const newDoc = await createDocument(
         parsed.title,
         parsed.contentHtml,
         parsed.plainText,

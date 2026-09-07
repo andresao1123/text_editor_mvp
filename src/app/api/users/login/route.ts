@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = getUserByEmail(validated.data.email);
+    const user = await getUserByEmail(validated.data.email);
     if (!user) {
       return NextResponse.json(
         { error: `No account found for "${validated.data.email}". Please create an account.` },

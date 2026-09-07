@@ -18,12 +18,12 @@ export async function GET(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const userId = req.headers.get('x-user-id') || 'user-alex';
 
-    const role = getUserRoleForDocument(id, userId);
+    const role = await getUserRoleForDocument(id, userId);
     if (!role) {
       return NextResponse.json({ error: 'Document not found or access denied' }, { status: 404 });
     }
 
-    const shares = getDocumentShares(id);
+    const shares = await getDocumentShares(id);
     return NextResponse.json({ shares, userRole: role });
   } catch (error) {
     console.error('Error fetching document shares:', error);
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const currentUserId = req.headers.get('x-user-id') || 'user-alex';
 
-    const role = getUserRoleForDocument(id, currentUserId);
+    const role = await getUserRoleForDocument(id, currentUserId);
     if (!role) {
       return NextResponse.json({ error: 'Document not found' }, { status: 404 });
     }
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest, context: RouteContext) {
 
     let targetUserId = validated.data.userId;
     if (!targetUserId && validated.data.email) {
-      const user = getUserByEmail(validated.data.email);
+      const user = await getUserByEmail(validated.data.email);
       if (!user) {
         return NextResponse.json(
           { error: `User with email "${validated.data.email}" not found` },
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest, context: RouteContext) {
       return NextResponse.json({ error: 'You are already the document owner' }, { status: 400 });
     }
 
-    const share = shareDocument(id, targetUserId, validated.data.role);
+    const share = await shareDocument(id, targetUserId, validated.data.role);
     return NextResponse.json({ share }, { status: 200 });
   } catch (error) {
     console.error('Error sharing document:', error);
@@ -90,7 +90,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
     const { id } = await context.params;
     const currentUserId = req.headers.get('x-user-id') || 'user-alex';
 
-    const role = getUserRoleForDocument(id, currentUserId);
+    const role = await getUserRoleForDocument(id, currentUserId);
     if (role !== 'owner') {
       return NextResponse.json(
         { error: 'Only the document owner can revoke access' },
@@ -103,7 +103,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
       return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
     }
 
-    removeDocumentShare(id, targetUserId);
+    await removeDocumentShare(id, targetUserId);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error removing share:', error);
