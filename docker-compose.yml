@@ -1,0 +1,17 @@
+services:
+  docflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docflow-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - docflow_data:/app/data
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+
+volumes:
+  docflow_data:

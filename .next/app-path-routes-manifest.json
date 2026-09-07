@@ -1,0 +1,11 @@
+{
+  "/api/documents/route": "/api/documents",
+  "/api/documents/[id]/share/route": "/api/documents/[id]/share",
+  "/api/users/route": "/api/users",
+  "/api/documents/[id]/route": "/api/documents/[id]",
+  "/api/upload/route": "/api/upload",
+  "/api/users/login/route": "/api/users/login",
+  "/_not-found/page": "/_not-found",
+  "/doc/[id]/page": "/doc/[id]",
+  "/page": "/"
+}
